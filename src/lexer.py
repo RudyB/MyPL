@@ -134,7 +134,7 @@ class Lexer(object):
                 return mytoken.Token(mytoken.END, cur_string, line_at_start, column_at_start)
             if cur_string == 'else':
                 return mytoken.Token(mytoken.ELSE, cur_string, line_at_start, column_at_start)
-            if cur_string == 'else if':
+            if cur_string == 'elseif':
                 return mytoken.Token(mytoken.ELSEIF, cur_string, line_at_start, column_at_start)
             if cur_string == 'do':
                 return mytoken.Token(mytoken.DO, cur_string, line_at_start, column_at_start)
