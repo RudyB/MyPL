@@ -26,7 +26,7 @@ class Parser(object):
         s = error_msg + ' found "' + self.current_token.lexeme + '"'
         l = self.current_token.line
         c = self.current_token.column
-        raise Error(s,l,c)
+        raise Error(s, l, c)
 
     def stmts(self):
         if not (self.current_token.tokentype == mytoken.EOS
@@ -88,18 +88,18 @@ class Parser(object):
         if self.current_token.tokentype == mytoken.LBRACKET:
             self.advance()
             self.expr()
-            self.eat(mytoken.RBRACKET,'expecting "]"')
+            self.eat(mytoken.RBRACKET, 'expecting "]"')
 
     def expr(self):
         self.value()
         self.exprt()
 
     def exprt(self):
-        if (self.current_token.tokentype == mytoken.PLUS or
-                    self.current_token.tokentype == mytoken.MINUS or
-                    self.current_token.tokentype == mytoken.DIVIDE or
-                    self.current_token.tokentype == mytoken.MULTIPLY or
-                    self.current_token.tokentype == mytoken.MODULUS
+        if (self.current_token.tokentype == mytoken.PLUS
+            or self.current_token.tokentype == mytoken.MINUS
+            or self.current_token.tokentype == mytoken.DIVIDE
+            or self.current_token.tokentype == mytoken.MULTIPLY
+            or self.current_token.tokentype == mytoken.MODULUS
             ):
             self.math_rel()
             self.expr()
@@ -108,18 +108,17 @@ class Parser(object):
         if self.current_token.tokentype == mytoken.ID:
             self.advance()
             self.listindex()
-        elif (self.current_token.tokentype == mytoken.STRING or
-                      self.current_token.tokentype == mytoken.INT or
-                      self.current_token.tokentype == mytoken.BOOL
+        elif (self.current_token.tokentype == mytoken.STRING
+              or self.current_token.tokentype == mytoken.INT
+              or self.current_token.tokentype == mytoken.BOOL
               ):
             self.advance()
         elif self.current_token.tokentype == mytoken.LBRACKET:
             self.advance()
             self.exprlist()
-            self.eat(mytoken.RBRACKET,'expecting "]"')
+            self.eat(mytoken.RBRACKET, 'expecting "]"')
         else:
             self.input()
-
 
     def exprlist(self):
         # TODO: DO I have to do a nested check of <expr> and <value>
@@ -147,7 +146,7 @@ class Parser(object):
         if self.current_token.tokentype == mytoken.ELSEIF:
             self.advance()
             self.bexpr()
-            self.eat(mytoken.THEN,'expecting "THEN"')
+            self.eat(mytoken.THEN, 'expecting "THEN"')
             self.stmts()
             self.condt()
         elif self.current_token.tokentype == mytoken.ELSE:
@@ -164,12 +163,12 @@ class Parser(object):
             self.bexprt()
 
     def bexprt(self):
-        if (self.current_token.tokentype == mytoken.EQUAL or
-                    self.current_token.tokentype == mytoken.LESS_THAN or
-                    self.current_token.tokentype == mytoken.GREATER_THAN or
-                    self.current_token.tokentype == mytoken.LESS_THAN_EQUAL or
-                    self.current_token.tokentype == mytoken.GREATER_THAN_EQUAL or
-                    self.current_token.tokentype == mytoken.NOT_EQUAL
+        if (self.current_token.tokentype == mytoken.EQUAL
+            or self.current_token.tokentype == mytoken.LESS_THAN
+            or self.current_token.tokentype == mytoken.GREATER_THAN
+            or self.current_token.tokentype == mytoken.LESS_THAN_EQUAL
+            or self.current_token.tokentype == mytoken.GREATER_THAN_EQUAL
+            or self.current_token.tokentype == mytoken.NOT_EQUAL
             ):
             self.bool_rel()
             self.expr()
@@ -192,5 +191,3 @@ class Parser(object):
         self.eat(mytoken.DO, 'expecting "DO"')
         self.stmts()
         self.eat(mytoken.END, 'expecting "END"')
-
-
