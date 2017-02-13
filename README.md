@@ -88,3 +88,12 @@ MODULUS
 END
 LESS THAN WHILE
 ```
+## Running the application
+A well-formed program will return no console output
+
+The application can be started with:  
+`python hw3.py`
+
+
+## License   
+This repository is released under the MIT license. See LICENSE for details.
