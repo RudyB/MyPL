@@ -1,0 +1,10 @@
+
+# more complex statements
+
+print("Hello World");
+
+x=readint("Enter an int: ");
+
+xs = [];
+ys = [1,2, 3,  4];
+

@@ -1,0 +1,8 @@
+# Convert Temperature in Celsius to Fahrenheit
+
+celsius = readint("Enter a temperature in celsius: ");
+result = celsius *  9 / 5  + 32;
+println(celsius);
+print("degrees Celsius is equal to ");
+print(result);
+print(" degrees Fahrenheit");

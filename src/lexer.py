@@ -1,7 +1,7 @@
 """
 Author: Rudy Bermudez
 Filename: lexer.py
-Assignment: HW2
+Assignment: HW3
 Description: Model class of a Lexer
 """
 
@@ -27,32 +27,22 @@ class Lexer(object):
         self.input_stream = input_stream
 
     def __peek(self):
-        """
-        Returns the next character in the input_stream without changing the
-        input_stream position
-        """
+        """ Returns the next character in the input_stream without changing the input_stream position """
         pos = self.input_stream.tell()
         symbol = self.input_stream.read(1)
         self.input_stream.seek(pos)
         return symbol
 
     def __read(self):
-        """
-        Returns the next character in the input_stream and increments the
-        input_stream position
-        """
+        """ Returns the next character in the input_stream and increments the input_stream position """
         return self.input_stream.read(1)
 
     def advance_column(self):
-        """
-        Increments the column property by 1
-        """
+        """ Increments the column property by 1 """
         self.column += 1
 
     def advance_line(self):
-        """
-        Increments the line by 1 and resets the column to 0
-        """
+        """ Increments the line by 1 and resets the column to 0 """
         self.column = 0
         self.line += 1
 
@@ -66,22 +56,16 @@ class Lexer(object):
         symbol = self.__read()
         self.advance_column()
 
-        """
-        Checks to see if end of file has been reached and returns EOS Token
-        """
+        """ Checks to see if end of file has been reached and returns EOS Token """
         if symbol == '':
             return mytoken.Token(mytoken.EOS, "", self.line, self.column)
 
-        """
-        Checks for a new line and then advances the line property
-        """
+        """ Checks for a new line and then advances the line property """
         if symbol == '\n':
             self.advance_line()
             return self.next_token()
 
-        """
-        Checks for a comment and then advances the input_stream until new line is found
-        """
+        """ Checks for a comment and then advances the input_stream until new line is found """
         if symbol == '#':
             go = True
             while go:
@@ -97,10 +81,7 @@ class Lexer(object):
         if symbol.isspace():
             return self.next_token()
 
-        """
-        Checks for a digit and then returns an INT Token with the number as the
-        lexeme
-        """
+        """ Checks for a digit and then returns an INT Token with the number as the lexeme """
         if symbol.isdigit():
             column_at_start = self.column
             line_at_start = self.line

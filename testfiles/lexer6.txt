@@ -1,0 +1,25 @@
+# Compiles and prints a list of names of user inputted friends
+runProgram = true;
+friendList = [];
+i = 0;
+
+while runProgram do
+    friend = readstr("Enter a name of a friend: ");
+    friendList[i] = friend;
+
+    println("Friend list: ");
+
+    j = 0;
+    while j <= i do
+        print(friendList[j]);
+        print(", ");
+        j = j + 1;
+    end
+
+    i = i + 1;
+    shouldContinue = readint("Enter 0 if you would like to quit. Enter 1 if you want to continue to use the program");
+    if shouldContinue == 0 then
+        runProgram = false;
+    end
+
+end

@@ -1,3 +1,10 @@
+"""
+Author: Rudy Bermudez
+Filename: hw3.py
+Assignment: HW3
+Description: Main Driver Class of Program
+"""
+
 import sys
 import lexer
 import parser
@@ -5,6 +12,10 @@ import error
 
 
 def main(filename):
+    """ Opens a file and begins parsing the file.
+    :param filename: The path of a file the user would like to parse
+    :return: nothing if file is parsed without errors
+    """
     try:
         file_stream = open(filename, 'r')
         the_lexer = lexer.Lexer(file_stream)

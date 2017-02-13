@@ -1,0 +1,21 @@
+# Program that checks if input is Prime
+
+userInput = readint("Enter an int: ");
+result = 0;
+j = 2;
+while j <= userInput / 2 do
+    if userInput % j == 0 then
+     result = 1;
+    end
+    j = j + 1;
+end
+
+if result == 1 then
+    print("The number ");
+    print(userInput);
+    print(" is Not Prime.");
+else
+    println("The number " );
+    print(userInput);
+    print(" is Prime.");
+end

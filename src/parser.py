@@ -1,168 +1,190 @@
+"""
+Author: Rudy Bermudez
+Filename: parser.py
+Assignment: HW3
+Description: Controls Parsing Tasks
+"""
+
 import mytoken
 from error import Error
 
 
 class Parser(object):
+
     def __init__(self, lexer):
+        """ Initializes the Parser Class
+        :param lexer: Instance of `Lexer`
+        """
         self.lexer = lexer
         self.current_token = None
 
     def parse(self):
-        """succeeds if program is syntactically well-formed"""
-        self.advance()
-        self.stmts()
-        self.eat(mytoken.EOS, 'expecting end of file')  # helper functions:
+        """ Starts the reverse descent parser
 
-    def advance(self):
+        Succeeds if program is syntactically well-formed
+        """
+        self.__advance()
+        self.__stmts()
+        self.__expect(mytoken.EOS, 'expecting end of file')
+
+    def __advance(self):
+        """ Calls for the next token from the `lexer` and stores it to `self.current_token` """
         self.current_token = self.lexer.next_token()
 
-    def eat(self, tokentype, error_msg):
+    def __expect(self, tokentype, error_msg):
+        """ Checks to see if the current token is what is syntactically expected
+        :param tokentype: the expected token type of type `Token`
+        :param error_msg: the error message to be delivered to the console
+        """
         if self.current_token.tokentype == tokentype:
-            self.advance()
+            self.__advance()
         else:
-            self.error(error_msg)
+            self.__error(error_msg)
 
-    def error(self, error_msg):
+    def __error(self, error_msg):
+        """ Raises an Error
+        :param error_msg: the error message to be delivered to the console
+        """
         s = error_msg + ' found "' + self.current_token.lexeme + '"'
         l = self.current_token.line
         c = self.current_token.column
         raise Error(s, l, c)
 
-    def stmts(self):
+    def __stmts(self):
         if not (self.current_token.tokentype == mytoken.EOS
                 or self.current_token.tokentype == mytoken.END
                 or self.current_token.tokentype == mytoken.ELSE
                 or self.current_token.tokentype == mytoken.ELSEIF
                 ):
-            self.stmt()
-            self.stmts()
+            self.__stmt()
+            self.__stmts()
 
-    def stmt(self):
+    def __stmt(self):
         if self.current_token.tokentype == mytoken.PRINT or self.current_token.tokentype == mytoken.PRINTLN:
-            self.output()
+            self.__output()
         elif self.current_token.tokentype == mytoken.ID:
-            self.assign()
+            self.__assign()
         elif self.current_token.tokentype == mytoken.IF:
-            self.cond()
+            self.__cond()
         elif self.current_token.tokentype == mytoken.WHILE:
-            self.loop()
+            self.__loop()
 
-    def output(self):
+    def __output(self):
         if self.current_token.tokentype == mytoken.PRINT:
-            self.advance()
-            self.eat(mytoken.LPAREN, 'expecting "("')
-            self.expr()
-            self.eat(mytoken.RPAREN, 'expecting ")"')
-            self.eat(mytoken.SEMICOLON, 'expecting ";"')
+            self.__advance()
+            self.__expect(mytoken.LPAREN, 'expecting "("')
+            self.__expr()
+            self.__expect(mytoken.RPAREN, 'expecting ")"')
+            self.__expect(mytoken.SEMICOLON, 'expecting ";"')
 
         elif self.current_token.tokentype == mytoken.PRINTLN:
-            self.advance()
-            self.eat(mytoken.LPAREN, 'expecting "("')
-            self.expr()
-            self.eat(mytoken.RPAREN, 'expecting ")"')
-            self.eat(mytoken.SEMICOLON, 'expecting ";"')
+            self.__advance()
+            self.__expect(mytoken.LPAREN, 'expecting "("')
+            self.__expr()
+            self.__expect(mytoken.RPAREN, 'expecting ")"')
+            self.__expect(mytoken.SEMICOLON, 'expecting ";"')
 
-    def input(self):
+    def __input(self):
         if self.current_token.tokentype == mytoken.READINT:
-            self.advance()
-            self.eat(mytoken.LPAREN, 'expecting "("')
-            self.eat(mytoken.STRING, 'expecting "STRING"')
-            self.eat(mytoken.RPAREN, 'expecting ")"')
-            self.value()
+            self.__advance()
+            self.__expect(mytoken.LPAREN, 'expecting "("')
+            self.__expect(mytoken.STRING, 'expecting "STRING"')
+            self.__expect(mytoken.RPAREN, 'expecting ")"')
+            self.__value()
 
         elif self.current_token.tokentype == mytoken.READSTR:
-            self.advance()
-            self.eat(mytoken.LPAREN, 'expecting "("')
-            self.eat(mytoken.STRING, 'expecting "STRING"')
-            self.eat(mytoken.RPAREN, 'expecting ")"')
-            self.value()
+            self.__advance()
+            self.__expect(mytoken.LPAREN, 'expecting "("')
+            self.__expect(mytoken.STRING, 'expecting "STRING"')
+            self.__expect(mytoken.RPAREN, 'expecting ")"')
+            self.__value()
 
-    def assign(self):
-        self.advance()
-        self.listindex()
-        self.eat(mytoken.ASSIGN, 'expecting "="')
-        self.expr()
-        self.eat(mytoken.SEMICOLON, 'expecting ";"')
+    def __assign(self):
+        self.__advance()
+        self.__listindex()
+        self.__expect(mytoken.ASSIGN, 'expecting "="')
+        self.__expr()
+        self.__expect(mytoken.SEMICOLON, 'expecting ";"')
 
-    def listindex(self):
+    def __listindex(self):
         if self.current_token.tokentype == mytoken.LBRACKET:
-            self.advance()
-            self.expr()
-            self.eat(mytoken.RBRACKET, 'expecting "]"')
+            self.__advance()
+            self.__expr()
+            self.__expect(mytoken.RBRACKET, 'expecting "]"')
 
-    def expr(self):
-        self.value()
-        self.exprt()
+    def __expr(self):
+        self.__value()
+        self.__exprt()
 
-    def exprt(self):
+    def __exprt(self):
         if (self.current_token.tokentype == mytoken.PLUS
             or self.current_token.tokentype == mytoken.MINUS
             or self.current_token.tokentype == mytoken.DIVIDE
             or self.current_token.tokentype == mytoken.MULTIPLY
             or self.current_token.tokentype == mytoken.MODULUS
             ):
-            self.math_rel()
-            self.expr()
+            self.__math_rel()
+            self.__expr()
 
-    def value(self):
+    def __value(self):
         if self.current_token.tokentype == mytoken.ID:
-            self.advance()
-            self.listindex()
+            self.__advance()
+            self.__listindex()
         elif (self.current_token.tokentype == mytoken.STRING
               or self.current_token.tokentype == mytoken.INT
               or self.current_token.tokentype == mytoken.BOOL
               ):
-            self.advance()
+            self.__advance()
         elif self.current_token.tokentype == mytoken.LBRACKET:
-            self.advance()
-            self.exprlist()
-            self.eat(mytoken.RBRACKET, 'expecting "]"')
+            self.__advance()
+            self.__exprlist()
+            self.__expect(mytoken.RBRACKET, 'expecting "]"')
         else:
-            self.input()
+            self.__input()
 
-    def exprlist(self):
-        # TODO: DO I have to do a nested check of <expr> and <value>
-        self.expr()
-        self.exprtail()
+    def __exprlist(self):
+        # TODO: Do I have to do a nested check of <expr> and <value> ?
+        self.__expr()
+        self.__exprtail()
 
-    def exprtail(self):
+    def __exprtail(self):
         if self.current_token.tokentype == mytoken.COMMA:
-            self.advance()
-            self.expr()
-            self.exprtail()
+            self.__advance()
+            self.__expr()
+            self.__exprtail()
 
-    def math_rel(self):
-        self.advance()
+    def __math_rel(self):
+        self.__advance()
 
-    def cond(self):
-        self.advance()
-        self.bexpr()
-        self.eat(mytoken.THEN, 'expecting "THEN"')
-        self.stmts()
-        self.condt()
-        self.eat(mytoken.END, 'expecting "END"')
+    def __cond(self):
+        self.__advance()
+        self.__bexpr()
+        self.__expect(mytoken.THEN, 'expecting "THEN"')
+        self.__stmts()
+        self.__condt()
+        self.__expect(mytoken.END, 'expecting "END"')
 
-    def condt(self):
+    def __condt(self):
         if self.current_token.tokentype == mytoken.ELSEIF:
-            self.advance()
-            self.bexpr()
-            self.eat(mytoken.THEN, 'expecting "THEN"')
-            self.stmts()
-            self.condt()
+            self.__advance()
+            self.__bexpr()
+            self.__expect(mytoken.THEN, 'expecting "THEN"')
+            self.__stmts()
+            self.__condt()
         elif self.current_token.tokentype == mytoken.ELSE:
-            self.advance()
-            self.stmts()
+            self.__advance()
+            self.__stmts()
 
-    def bexpr(self):
+    def __bexpr(self):
         if self.current_token.tokentype == mytoken.NOT:
-            self.advance()
-            self.expr()
-            self.bexprt()
+            self.__advance()
+            self.__expr()
+            self.__bexprt()
         else:
-            self.expr()
-            self.bexprt()
+            self.__expr()
+            self.__bexprt()
 
-    def bexprt(self):
+    def __bexprt(self):
         if (self.current_token.tokentype == mytoken.EQUAL
             or self.current_token.tokentype == mytoken.LESS_THAN
             or self.current_token.tokentype == mytoken.GREATER_THAN
@@ -170,24 +192,24 @@ class Parser(object):
             or self.current_token.tokentype == mytoken.GREATER_THAN_EQUAL
             or self.current_token.tokentype == mytoken.NOT_EQUAL
             ):
-            self.bool_rel()
-            self.expr()
-            self.bconnect()
+            self.__bool_rel()
+            self.__expr()
+            self.__bconnect()
 
-    def bconnect(self):
+    def __bconnect(self):
         if self.current_token.tokentype == mytoken.AND:
-            self.advance()
-            self.bexpr()
+            self.__advance()
+            self.__bexpr()
         elif self.current_token.tokentype == mytoken.OR:
-            self.advance()
-            self.bexpr()
+            self.__advance()
+            self.__bexpr()
 
-    def bool_rel(self):
-        self.advance()
+    def __bool_rel(self):
+        self.__advance()
 
-    def loop(self):
-        self.advance()
-        self.bexpr()
-        self.eat(mytoken.DO, 'expecting "DO"')
-        self.stmts()
-        self.eat(mytoken.END, 'expecting "END"')
+    def __loop(self):
+        self.__advance()
+        self.__bexpr()
+        self.__expect(mytoken.DO, 'expecting "DO"')
+        self.__stmts()
+        self.__expect(mytoken.END, 'expecting "END"')

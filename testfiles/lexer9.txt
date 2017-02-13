@@ -1,0 +1,10 @@
+# What to wear based on weather
+
+x = readint("What's the temperature outside: ");
+if x < 40 then
+  println("It's pretty cold... Wear a Jacket");
+elseif x >= 40 and x < 64 then
+  println("It's decent out, but you should wear a sweater");
+else
+  println("It's a warm day! Wear shorts");
+end

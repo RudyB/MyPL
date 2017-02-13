@@ -1,0 +1,16 @@
+# all symbols (not syntactically correct)
+
+# reserved words
+if then elif else while do end readstr readint print println and or not
+
+# symbols
+; , ( ) [ ] = == < > <= >= != + - / * %
+
+# identifiers
+mylist my_list x h3ll0
+
+# values
+42 "foo bar" true false 1010101111100
+
+
+

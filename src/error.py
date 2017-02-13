@@ -1,19 +1,18 @@
 """
 Author: Rudy Bermudez
 Filename: error.py
-Assignment: HW2
+Assignment: HW3
 Description: Model an Error
 """
 
 
 class Error(Exception):
     """ Model class of an Error
-
-         :Parameters:
-            - message: The issue that caused the error
-            - line: line where error occurred
-            - column: column where error occurred
-        """
+    :Parameters:
+        - message: The issue that caused the error
+        - line: line where error occurred
+        - column: column where error occurred
+    """
 
     def __init__(self, message, line, column):
         self.message = message
