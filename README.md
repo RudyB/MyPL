@@ -1,4 +1,4 @@
-# Reverse Descent Parser for MyPL Language
+# Recursive Descent Parser for MyPL Language
 
 ## Example MyPL Code
 The following are some simple examples of statements in MyPL:
@@ -89,10 +89,11 @@ END
 LESS THAN WHILE
 ```
 ## Running the application
+The program takes a source file written in MyPL and outputs any parser (or lexer) errors. 
 A well-formed program will return no console output
 
 The application can be started with:  
-`python hw3.py`
+`python hw3.py exampleMyPLProgram.txt`
 
 
 ## License   
