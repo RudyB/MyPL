@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """
 Author: Rudy Bermudez
 Filename: hw3.py
