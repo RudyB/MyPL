@@ -16,7 +16,7 @@ print(", ");
 while count < nth do
     total = n1 + n2;
     print(total);
-    print(", ");
+    print((“, "); # This should be an error
     # update values
     n1 = n2;
     n2 = total;

@@ -1,0 +1,10 @@
+
+halt = false;
+
+while not halt do
+   ans = readstr("Type y to continue: ");
+   if ans == "y" then
+      halt = true;
+   end 
+end 
+

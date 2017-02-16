@@ -1,0 +1,16 @@
+
+x = 1;
+y = x;
+
+while x < 10 do
+   x = x + 1;
+end
+
+
+while x < 5 do
+   while y < 5 do
+      print("x + y = ");
+      println(x + y);
+   end
+   x = x + 1;
+end

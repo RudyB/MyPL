@@ -3,7 +3,7 @@
 
 print("Hello World");
 
-x=readint("Enter an int: ");
+x=readint("Enter an int: ") #This should be an error
 
 xs = [];
 ys = [1,2, 3,  4];

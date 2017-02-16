@@ -1,0 +1,14 @@
+
+xs = [1,2,3,4,5];
+ys = [10,20,30,40,50];
+
+i = 0;
+while i < 5 do
+   xs[i] = ys[i];
+   xs[i+1] = xs[i] + y[i] * 2;
+   i = i + 1;
+end
+
+print("xs: ");
+println(xs);
+

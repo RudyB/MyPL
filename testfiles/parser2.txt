@@ -1,0 +1,8 @@
+
+x = 5;
+
+y = readint("Enter an int: ");
+
+z = readstr("Enter a string: ");
+
+bl_0_zzz_0 = 010001211;
