@@ -1,3 +1,4 @@
+
 class ASTNode(object):
     """The base class for the abstract syntax tree."""
 
@@ -28,13 +29,11 @@ class SimpleBoolExpr(BoolExpr):
     """
 
     def __init__(self):
-        self.expr = None
+        self.expr = None  # Expr node
         self.negated = False
 
-
-def accept(self, visitor):
-    # Expr node
-    visitor.visit_simple_bool_expr(self)
+    def accept(self, visitor):
+        visitor.visit_simple_bool_expr(self)
 
 
 class ComplexBoolExpr(BoolExpr):
@@ -47,9 +46,9 @@ class ComplexBoolExpr(BoolExpr):
     def __init__(self):
         super(ComplexBoolExpr, self).__init__()
         self.negated = False
-        self.first_expr = None
-        self.bool_rel = None
-        self.second_expr = None
+        self.first_expr = None  # Expr node
+        self.bool_rel = None  # Token (==, <=, !=, etc.)
+        self.second_expr = None  # Expr node
         self.has_bool_connector = False  # true if has an AND or OR
         self.bool_connector = None  # Token (AND or OR)
         self.rest = None  # Expr node
@@ -61,9 +60,6 @@ class ComplexBoolExpr(BoolExpr):
 class StmtList(ASTNode):
     """A statement list consists of a list of statements."""
 
-    # Expr node
-    # Token (==, <=, !=, etc.)
-    # Expr node
     def __init__(self):
         self.stmts = []  # list of Stmt
 
@@ -77,11 +73,10 @@ class BasicIf(object):
     """
 
     def __init__(self):
-        self.bool_expr = None
+        self.bool_expr = None  # BoolExpr node
         self.stmt_list = StmtList()
 
 
-# BoolExpr node
 class IfStmt(Stmt):
     """An if stmt consists of a basic if part, a (possibly empty) list of
     else ifs, and an optional else part (represented as a statement
@@ -90,7 +85,7 @@ class IfStmt(Stmt):
 
     def __init__(self):
         self.if_part = BasicIf()
-        self.elseifs = []
+        self.elseifs = []  # list of BasicIf
         self.has_else = False
         self.else_stmts = StmtList()
 
@@ -98,7 +93,6 @@ class IfStmt(Stmt):
         visitor.visit_if_stmt(self)
 
 
-# list of BasicIf
 class WhileStmt(Stmt):
     """A while statement consists of a condition (Boolean expression) and
     a statement list (the body of the while).

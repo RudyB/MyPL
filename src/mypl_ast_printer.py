@@ -14,7 +14,8 @@ class ASTPrintVisitor(ast.Visitor):
 
     def indent_write(self, msg):
         self.write('  ' * self.indent + msg)
-        # visitor functions
+
+    # visitor functions
 
     def visit_stmt_list(self, stmt_list):
         self.indent_write('StmtList:\n')
@@ -28,24 +29,24 @@ class ASTPrintVisitor(ast.Visitor):
         self.indent += 1
         if simple_bool_expr.negated:
             self.indent_write('NOT\n')
-            simple_bool_expr.expr.accept(self)
-            self.write('\n')
-            self.indent -= 1
+        simple_bool_expr.expr.accept(self)
+        self.write('\n')
+        self.indent -= 1
 
     def visit_complex_bool_expr(self, complex_bool_expr):
         self.indent_write('ComplexBoolExpr:\n')
         self.indent += 1
         if complex_bool_expr.negated:
             self.indent_write('NOT\n')
-            complex_bool_expr.first_expr.accept(self)
-            self.indent_write(complex_bool_expr.bool_rel.tokentype)
+        complex_bool_expr.first_expr.accept(self)
+        self.indent_write(complex_bool_expr.bool_rel.tokentype)
+        self.write('\n')
+        complex_bool_expr.second_expr.accept(self)
+        if complex_bool_expr.has_bool_connector:
+            self.indent_write(complex_bool_expr.bool_connector.tokentype)
             self.write('\n')
-            complex_bool_expr.second_expr.accept(self)
-            if complex_bool_expr.has_bool_connector:
-                self.indent_write(complex_bool_expr.bool_connector.tokentype)
-                self.write('\n')
-                complex_bool_expr.rest.accept(self)
-            self.indent -= 1
+            complex_bool_expr.rest.accept(self)
+        self.indent -= 1
 
     def visit_if_stmt(self, if_stmt):
         self.indent_write('IfStmt:\n')
@@ -93,9 +94,9 @@ class ASTPrintVisitor(ast.Visitor):
             self.write('PRINTLN\n')
         else:
             self.write('PRINT\n')
-            self.indent += 1
-            print_stmt.expr.accept(self)
-            self.indent -= 1
+        self.indent += 1
+        print_stmt.expr.accept(self)
+        self.indent -= 1
 
     def visit_assign_stmt(self, assign_stmt):
         self.indent_write('AssignStmt:\n')
@@ -107,8 +108,8 @@ class ASTPrintVisitor(ast.Visitor):
         else:
             self.indent_write('ID: ')
             self.write(assign_stmt.lhs.lexeme + '\n')
-            assign_stmt.rhs.accept(self)
-            self.indent -= 1
+        assign_stmt.rhs.accept(self)
+        self.indent -= 1
 
     def visit_simple_expr(self, simple_expr):
         self.indent_write('SimpleExpr: ')
@@ -120,7 +121,7 @@ class ASTPrintVisitor(ast.Visitor):
     def visit_index_expr(self, index_expr):
         self.indent_write('IndexExpr:\n')
         self.indent += 1
-        self.indent_write('INDEXED ID(')
+        self.indent_write('INDEXED ID (')
         self.write(index_expr.identifier.lexeme)
         self.write(')\n')
         index_expr.expr.accept(self)
@@ -139,9 +140,9 @@ class ASTPrintVisitor(ast.Visitor):
             self.write('READINT ')
         else:
             self.write('READSTR ')
-            self.write('(')
-            self.write(read_expr.msg.lexeme)
-            self.write(')\n');
+        self.write('(')
+        self.write(read_expr.msg.lexeme)
+        self.write(')\n');
 
     def visit_complex_expr(self, complex_expr):
         self.indent_write('ComplexExpr:\n')
