@@ -1,7 +1,7 @@
 """
 Author: Rudy Bermudez
 Filename: error.py
-Assignment: HW3
+Assignment: HW4
 Description: Model an Error
 """
 
