@@ -1,7 +1,7 @@
 """
 Author: Rudy Bermudez
 Filename: lexer.py
-Assignment: HW4
+Assignment: HW5
 Description: Model class of a Lexer
 """
 

@@ -11,6 +11,7 @@ import lexer
 import parser
 import error
 import mypl_ast_printer as ast_printer
+import mypl_type_checker as type_checker
 
 
 def main(filename):
@@ -23,7 +24,8 @@ def main(filename):
         the_lexer = lexer.Lexer(file_stream)
         the_parser = parser.Parser(the_lexer)
         stmt_list = the_parser.parse()
-        print_visitor = ast_printer.ASTPrintVisitor(sys.stdout)
+        checker = type_checker.TypeChecker()
+        stmt_list.accept(checker)
         stmt_list.accept(print_visitor)
     except IOError as e:
         print "error: unable to open file '" + filename + "'"
