@@ -40,27 +40,21 @@ class TypeChecker(Visitor):
         :param if_stmt: Instance of IfStmt()
         """
         if_stmt.if_part.bool_expr.accept(self)
-        self.sym_table.push_environment()
         if_stmt.if_part.stmt_list.accept(self)
-        self.sym_table.pop_environment()
         for elseif in if_stmt.elseifs:
             elseif.bool_expr.accept(self)
             self.sym_table.push_environment()
             elseif.stmt_list.accept(self)
             self.sym_table.pop_environment()
         if if_stmt.has_else:
-            self.sym_table.push_environment()
             if_stmt.else_stmts.accept(self)
-            self.sym_table.pop_environment()
 
     def visit_while_stmt(self, while_stmt):
         """ Type Checks a While Stmt
         :param while_stmt: Instance of WhileStmt
         """
         while_stmt.bool_expr.accept(self)
-        self.sym_table.push_environment()
         while_stmt.stmt_list.accept(self)
-        self.sym_table.pop_environment()
 
     def visit_print_stmt(self, print_stmt):
         """ Accepts the Expr of a PrintStmt """
@@ -124,9 +118,16 @@ class TypeChecker(Visitor):
         :param complex_expr: Instance of ComplexExpr()
         """
         complex_expr.rest.accept(self)
-        rhs = self.current_type
-        complex_expr.first_operand.accept(self)     # simple expr in curr type
         first_op = complex_expr.first_operand.term
-        if self.current_type != rhs:
-            msg = "expecting " + rhs + " but got " + self.current_type
-            raise Error(msg, first_op.line, first_op.column)
+        rhs = self.current_type
+        if rhs == token.STRING:
+            math_rel = complex_expr.math_rel.tokentype
+            if math_rel != token.PLUS:
+                msg = "You can only use '+' to concatenate Strings"
+                raise Error(msg, first_op.line, first_op.column)
+        else:
+            complex_expr.first_operand.accept(self)     # simple expr in curr type
+            first_op = complex_expr.first_operand.term
+            if self.current_type != rhs:
+                msg = "expecting " + rhs + " but got " + self.current_type
+                raise Error(msg, first_op.line, first_op.column)
