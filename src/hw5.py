@@ -1,8 +1,8 @@
 #!/usr/bin/python
 """
 Author: Rudy Bermudez
-Filename: hw4.py
-Assignment: HW4
+Filename: hw5.py
+Assignment: HW5
 Description: Main Driver Class of Program
 """
 
@@ -10,7 +10,6 @@ import sys
 import lexer
 import parser
 import error
-import mypl_ast_printer as ast_printer
 import mypl_type_checker as type_checker
 
 
@@ -26,7 +25,6 @@ def main(filename):
         stmt_list = the_parser.parse()
         checker = type_checker.TypeChecker()
         stmt_list.accept(checker)
-        stmt_list.accept(print_visitor)
     except IOError as e:
         print "error: unable to open file '" + filename + "'"
         sys.exit(1)
