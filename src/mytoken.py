@@ -1,7 +1,7 @@
 """
 Author: Rudy Bermudez
 Filename: mytoken.py
-Assignment: HW4
+Assignment: HW5
 Description: Model class of a Token
 """
 
