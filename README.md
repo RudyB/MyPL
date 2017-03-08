@@ -1,4 +1,4 @@
-# Recursive Descent Parser for MyPL Language
+# Recursive Descent Parser, Type-Checker, and Interpreter for MyPL Language
 
 ## Informal Description of MyPL Language
 The language supports basic assignment statements, arithmetic expressions, conditionals, loops, lists, and basic input/output. All variables are implicitly typed (i.e., the types of variables are inferred from their values). Programs consist of a sequence of statements given within a single file.  
@@ -139,97 +139,17 @@ The program takes a source file written in MyPL and outputs an Abstract Syntax T
 
 The application can be started with:  
 ```bash
-python hw4.py exampleMyPLProgram.txt
+python hw6.py exampleMyPLProgram.txt
 ```
 
 ## Example Output
-```
-StmtList:
-  AssignStmt:
-    ID: xs
-    ListExpr:
-      SimpleExpr: INT (1)
-      SimpleExpr: INT (2)
-      SimpleExpr: INT (3)
-      SimpleExpr: INT (4)
-      SimpleExpr: INT (5)
-  AssignStmt:
-    ID: ys
-    ListExpr:
-      SimpleExpr: INT (10)
-      SimpleExpr: INT (20)
-      SimpleExpr: INT (30)
-      SimpleExpr: INT (40)
-      SimpleExpr: INT (50)
-  AssignStmt:
-    ID: i
-    SimpleExpr: INT (0)
-  WhileStmt:
-    CONDITION:
-      ComplexBoolExpr:
-        SimpleExpr: ID (i)
-        LESS_THAN
-        SimpleExpr: INT (5)
-    BODY:
-      StmtList:
-        AssignStmt:
-          INDEXED ID: xs
-          SimpleExpr: ID (i)
-          IndexExpr:
-            INDEXED ID (ys)
-            SimpleExpr: ID (i)
-        AssignStmt:
-          INDEXED ID: xs
-          ComplexExpr:
-            SimpleExpr: ID (i)
-            PLUS
-            SimpleExpr: INT (1)
-          ComplexExpr:
-            IndexExpr:
-              INDEXED ID (xs)
-              SimpleExpr: ID (i)
-            PLUS
-            ComplexExpr:
-              IndexExpr:
-                INDEXED ID (y)
-                SimpleExpr: ID (i)
-              MULTIPLY
-              SimpleExpr: INT (2)
-        AssignStmt:
-          ID: i
-          ComplexExpr:
-            SimpleExpr: ID (i)
-            PLUS
-            SimpleExpr: INT (1)
-  PrintStmt: PRINT
-    SimpleExpr: STRING (xs: )
-  PrintStmt: PRINTLN
-    SimpleExpr: ID (xs)
-  AssignStmt:
-    ID: halt
-    SimpleExpr: BOOL (false)
-  WhileStmt:
-    CONDITION:
-      SimpleBoolExpr:
-        NOT
-        SimpleExpr: ID (halt)
-
-    BODY:
-      StmtList:
-        AssignStmt:
-          ID: ans
-          ReadExpr: READSTR (Type y to continue: )
-        IfStmt:
-          IF:
-            ComplexBoolExpr:
-              SimpleExpr: ID (ans)
-              EQUAL
-              SimpleExpr: STRING (y)
-          THEN:
-            StmtList:
-              AssignStmt:
-                ID: halt
-                SimpleExpr: BOOL (true)
+```bash
+Hello world!
+Enter an int: 2
+Enter an int: 1
+The first int was bigger than the second!
+Enter an int: 20
+z = 2, i = 3
 ```
 
 ## License   
